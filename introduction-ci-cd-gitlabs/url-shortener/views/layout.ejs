@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title + ' · Snippy' : 'Snippy' %></title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a class="brand" href="/">🔗 Snippy</a>
+      <nav class="nav-links">
+        <% if (isAuthenticated) { %>
+          <span class="nav-user">Hi, <%= currentUser.name %></span>
+          <a href="/dashboard">Dashboard</a>
+          <form action="/logout?_method=DELETE" method="POST" class="inline-form">
+            <button type="submit" class="link-btn">Log out</button>
+          </form>
+        <% } else { %>
+          <a href="/login">Log in</a>
+          <a href="/register" class="btn-sm">Sign up</a>
+        <% } %>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <% if (flash) { %>
+      <div class="alert alert-<%= flash.type %>"><%= flash.message %></div>
+    <% } %>
+    <%- body %>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Snippy &mdash; a sample URL shortener built with Node.js, Express, EJS &amp; MongoDB.</p>
+    </div>
+  </footer>
+</body>
+</html>

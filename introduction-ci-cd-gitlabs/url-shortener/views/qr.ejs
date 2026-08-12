@@ -1,0 +1,11 @@
+<section class="qr-card">
+  <h1>QR code</h1>
+  <p>Scan this code to open <strong><%= shortUrl %></strong></p>
+
+  <img src="<%= link.qrDataUrl %>" alt="QR code for <%= shortUrl %>" class="qr-image" />
+
+  <div class="qr-actions">
+    <a href="/links/<%= link._id %>/qr.png" download="snippy-<%= link.code %>.png" class="btn">Download PNG</a>
+    <a href="/dashboard" class="btn btn-outline">Back to dashboard</a>
+  </div>
+</section>

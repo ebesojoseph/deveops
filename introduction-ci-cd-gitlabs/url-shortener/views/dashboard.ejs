@@ -1,0 +1,64 @@
+<section class="dashboard-header">
+  <h1>Your links</h1>
+  <p>Create a new short link below. You can optionally set a custom code and title.</p>
+</section>
+
+<section class="create-card">
+  <form action="/links" method="POST" class="form form-row">
+    <div class="form-field grow">
+      <label for="originalUrl">Destination URL</label>
+      <input type="url" id="originalUrl" name="originalUrl" placeholder="https://example.com/some/long/path" required />
+    </div>
+    <div class="form-field">
+      <label for="customCode">Custom code (optional)</label>
+      <input type="text" id="customCode" name="customCode" placeholder="my-link" maxlength="20" />
+    </div>
+    <div class="form-field">
+      <label for="title">Title (optional)</label>
+      <input type="text" id="title" name="title" placeholder="My link" maxlength="80" />
+    </div>
+    <div class="form-field">
+      <button type="submit" class="btn">Shorten</button>
+    </div>
+  </form>
+</section>
+
+<section class="links-table-wrap">
+  <% if (links.length === 0) { %>
+    <p class="empty-state">You haven't created any links yet. Add one above to get started.</p>
+  <% } else { %>
+    <table class="links-table">
+      <thead>
+        <tr>
+          <th>Short link</th>
+          <th>Destination</th>
+          <th>Clicks</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% links.forEach(function(link) { %>
+          <tr>
+            <td>
+              <a href="<%= baseUrl %>/<%= link.code %>" target="_blank" rel="noopener noreferrer">
+                <%= baseUrl.replace(/^https?:\/\//, '') %>/<%= link.code %>
+              </a>
+              <% if (link.title) { %><div class="link-title"><%= link.title %></div><% } %>
+            </td>
+            <td class="truncate" title="<%= link.originalUrl %>"><%= link.originalUrl %></td>
+            <td><%= link.clicks %></td>
+            <td><%= link.createdAt.toLocaleDateString() %></td>
+            <td class="actions">
+              <a href="/links/<%= link._id %>/qr" class="btn-sm">QR</a>
+              <form action="/links/<%= link._id %>?_method=DELETE" method="POST" class="inline-form"
+                    onsubmit="return confirm('Delete this link?');">
+                <button type="submit" class="btn-sm btn-danger">Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</section>
